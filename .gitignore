@@ -1,0 +1,14 @@
+target/
+*.class
+.idea/
+*.iml
+.project
+.classpath
+.settings/
+.vscode/
+*.log
+config.properties
+.env
+*.mv.db
+*.trace.db
+.sahanamart/

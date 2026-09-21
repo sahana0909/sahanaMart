@@ -1,0 +1,11 @@
+# SahanaMart Configuration Template
+# Copy to config.properties and customize as needed
+
+db.url=jdbc:h2:file:~/.sahanamart/data/sahanamart_db;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE
+db.username=sa
+db.password=
+db.pool.maxSize=15
+db.pool.minIdle=3
+
+server.session.timeout=30
+app.environment=production
