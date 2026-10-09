@@ -44,9 +44,11 @@
         <url-pattern>/buyer/*</url-pattern>
         <url-pattern>/seller/*</url-pattern>
         <url-pattern>/admin/*</url-pattern>
+        <url-pattern>/cart</url-pattern>
         <url-pattern>/cart/*</url-pattern>
+        <url-pattern>/checkout</url-pattern>
         <url-pattern>/checkout/*</url-pattern>
-        <url-pattern>/reviews/add</url-pattern>
+        <url-pattern>/reviews/*</url-pattern>
     </filter-mapping>
 
     <!-- Servlets -->
@@ -68,7 +70,9 @@
     <servlet-mapping>
         <servlet-name>BuyerServlet</servlet-name>
         <url-pattern>/products</url-pattern>
+        <url-pattern>/product</url-pattern>
         <url-pattern>/product/*</url-pattern>
+        <url-pattern>/search</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -81,6 +85,7 @@
         <url-pattern>/cart/add</url-pattern>
         <url-pattern>/cart/update</url-pattern>
         <url-pattern>/cart/remove</url-pattern>
+        <url-pattern>/cart/clear</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -90,6 +95,7 @@
     <servlet-mapping>
         <servlet-name>CheckoutServlet</servlet-name>
         <url-pattern>/checkout</url-pattern>
+        <url-pattern>/checkout/place-order</url-pattern>
         <url-pattern>/order-confirmation</url-pattern>
     </servlet-mapping>
 
@@ -101,6 +107,7 @@
         <servlet-name>OrderServlet</servlet-name>
         <url-pattern>/buyer/orders</url-pattern>
         <url-pattern>/seller/orders</url-pattern>
+        <url-pattern>/seller/orders/status</url-pattern>
         <url-pattern>/seller/orders/update-status</url-pattern>
     </servlet-mapping>
 
@@ -120,6 +127,9 @@
     <servlet-mapping>
         <servlet-name>SellerServlet</servlet-name>
         <url-pattern>/seller/dashboard</url-pattern>
+        <url-pattern>/seller/product/create</url-pattern>
+        <url-pattern>/seller/product/edit</url-pattern>
+        <url-pattern>/seller/product/delete</url-pattern>
         <url-pattern>/seller/products/create</url-pattern>
         <url-pattern>/seller/products/edit</url-pattern>
         <url-pattern>/seller/products/delete</url-pattern>
@@ -132,6 +142,7 @@
     <servlet-mapping>
         <servlet-name>AdminServlet</servlet-name>
         <url-pattern>/admin/dashboard</url-pattern>
+        <url-pattern>/admin/listings/moderate</url-pattern>
         <url-pattern>/admin/products/toggle-status</url-pattern>
     </servlet-mapping>
 
@@ -152,6 +163,15 @@
         <servlet-name>ProductApiServlet</servlet-name>
         <url-pattern>/api/v1/products</url-pattern>
         <url-pattern>/api/v1/products/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ChatServlet</servlet-name>
+        <servlet-class>com.sahana.sahanamart.controller.api.ChatServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ChatServlet</servlet-name>
+        <url-pattern>/api/chat</url-pattern>
     </servlet-mapping>
 
     <!-- 30-minute explicit session timeout per Week 1 spec -->

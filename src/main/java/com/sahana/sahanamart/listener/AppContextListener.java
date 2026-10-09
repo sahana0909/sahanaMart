@@ -88,6 +88,7 @@ public class AppContextListener implements ServletContextListener {
             CartService cartService = new CartServiceImpl(cartDAO, productDAO);
             OrderService orderService = new OrderServiceImpl(orderDAO, cartDAO, productDAO);
             ReviewService reviewService = new ReviewServiceImpl(reviewDAO, orderDAO);
+            com.sahana.sahanamart.service.chat.ChatService chatService = new com.sahana.sahanamart.service.chat.ChatService();
 
             // 5. Store in ServletContext for Servlets to retrieve
             context.setAttribute("userService", userService);
@@ -95,6 +96,7 @@ public class AppContextListener implements ServletContextListener {
             context.setAttribute("cartService", cartService);
             context.setAttribute("orderService", orderService);
             context.setAttribute("reviewService", reviewService);
+            context.setAttribute("chatService", chatService);
 
             context.setAttribute("categories", productService.getAllCategories());
 
