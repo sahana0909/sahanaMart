@@ -19,7 +19,7 @@ import java.io.IOException;
 
 @WebFilter(filterName = "AuthFilter", urlPatterns = {
     "/buyer/*", "/seller/*", "/admin/*",
-    "/cart/*", "/checkout/*", "/reviews/add"
+    "/cart", "/cart/*", "/checkout", "/checkout/*", "/reviews/*"
 })
 public class AuthFilter implements Filter {
 

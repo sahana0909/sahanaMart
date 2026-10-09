@@ -36,6 +36,12 @@
         </div>
         <c:remove var="adminError" scope="session" />
     </c:if>
+    <c:if test="${not empty sessionScope.reviewError}">
+        <div class="alert alert-error">
+            <span>❌ <c:out value="${sessionScope.reviewError}"/></span>
+        </div>
+        <c:remove var="reviewError" scope="session" />
+    </c:if>
 
     <%-- Success messages --%>
     <c:if test="${not empty param.success}">

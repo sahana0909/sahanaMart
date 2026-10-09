@@ -31,6 +31,14 @@ public class ReviewServlet extends HttpServlet {
         String ratingStr = req.getParameter("rating");
         String comment = req.getParameter("comment");
 
+        if (productIdStr == null || productIdStr.trim().isEmpty() ||
+            orderIdStr == null || orderIdStr.trim().isEmpty() ||
+            ratingStr == null || ratingStr.trim().isEmpty()) {
+            req.getSession().setAttribute("reviewError", "Product ID, order ID, and star rating are required to submit a review.");
+            resp.sendRedirect(req.getContextPath() + (productIdStr != null && !productIdStr.trim().isEmpty() ? "/product?id=" + productIdStr.trim() : "/buyer/orders"));
+            return;
+        }
+
         try {
             Long productId = Long.parseLong(productIdStr.trim());
             Long orderId = Long.parseLong(orderIdStr.trim());

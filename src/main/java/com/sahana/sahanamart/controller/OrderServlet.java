@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "OrderServlet", urlPatterns = {"/buyer/orders", "/seller/orders", "/seller/orders/status"})
+@WebServlet(name = "OrderServlet", urlPatterns = {"/buyer/orders", "/seller/orders", "/seller/orders/status", "/seller/orders/update-status"})
 public class OrderServlet extends HttpServlet {
 
     private OrderService getOrderService() {

@@ -87,10 +87,7 @@
 
                 <form action="${pageContext.request.contextPath}/reviews/add" method="post">
                     <input type="hidden" name="productId" value="${product.id}" />
-                    <!-- Find recent orderId or allow selection -->
-                    <c:forEach var="item" items="${buyerCompletedOrders}">
-                        <input type="hidden" name="orderId" value="${item.id}" />
-                    </c:forEach>
+                    <input type="hidden" name="orderId" value="${eligibleOrderId}" />
 
                     <div class="form-group">
                         <label for="rating">Star Rating</label>

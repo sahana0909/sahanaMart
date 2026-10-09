@@ -96,7 +96,11 @@ public class BuyerServlet extends HttpServlet {
             User currentUser = (User) req.getSession().getAttribute("currentUser");
             boolean canReview = false;
             if (currentUser != null) {
-                canReview = getReviewService().canUserReview(currentUser.getId(), productId);
+                var eligibleOpt = getReviewService().getEligibleOrderIdForReview(currentUser.getId(), productId);
+                if (eligibleOpt.isPresent()) {
+                    canReview = true;
+                    req.setAttribute("eligibleOrderId", eligibleOpt.get());
+                }
             }
 
             req.setAttribute("product", product);

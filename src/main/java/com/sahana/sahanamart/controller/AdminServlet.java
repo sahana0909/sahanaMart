@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "AdminServlet", urlPatterns = {"/admin/dashboard", "/admin/listings/moderate"})
+@WebServlet(name = "AdminServlet", urlPatterns = {"/admin/dashboard", "/admin/listings/moderate", "/admin/products/toggle-status"})
 public class AdminServlet extends HttpServlet {
 
     private UserService getUserService() {
@@ -53,7 +53,7 @@ public class AdminServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getServletPath();
-        if ("/admin/listings/moderate".equals(path)) {
+        if ("/admin/listings/moderate".equals(path) || "/admin/products/toggle-status".equals(path)) {
             String productIdStr = req.getParameter("productId");
             String activeStr = req.getParameter("active");
             if (productIdStr != null && activeStr != null) {

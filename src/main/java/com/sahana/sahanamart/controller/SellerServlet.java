@@ -18,7 +18,10 @@ import java.util.List;
     "/seller/dashboard",
     "/seller/product/create",
     "/seller/product/edit",
-    "/seller/product/delete"
+    "/seller/product/delete",
+    "/seller/products/create",
+    "/seller/products/edit",
+    "/seller/products/delete"
 })
 public class SellerServlet extends HttpServlet {
 
@@ -58,12 +61,15 @@ public class SellerServlet extends HttpServlet {
         try {
             switch (path) {
                 case "/seller/product/create":
+                case "/seller/products/create":
                     handleCreate(req, resp, user.getId());
                     break;
                 case "/seller/product/edit":
+                case "/seller/products/edit":
                     handleEdit(req, resp, user.getId());
                     break;
                 case "/seller/product/delete":
+                case "/seller/products/delete":
                     handleDelete(req, resp, user.getId());
                     break;
                 default:

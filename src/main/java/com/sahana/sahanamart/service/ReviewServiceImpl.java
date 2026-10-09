@@ -5,10 +5,13 @@ import com.sahana.sahanamart.dao.ReviewDAO;
 import com.sahana.sahanamart.dto.ReviewDTO;
 import com.sahana.sahanamart.exception.UnauthorizedException;
 import com.sahana.sahanamart.exception.ValidationException;
+import com.sahana.sahanamart.model.Order;
+import com.sahana.sahanamart.model.OrderStatus;
 import com.sahana.sahanamart.model.Review;
 import com.sahana.sahanamart.util.ValidationUtil;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ReviewServiceImpl implements ReviewService {
@@ -82,11 +85,28 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public boolean canUserReview(Long buyerId, Long productId) {
+    public Optional<Long> getEligibleOrderIdForReview(Long buyerId, Long productId) {
         if (buyerId == null || productId == null) {
-            return false;
+            return Optional.empty();
         }
-        return orderDAO.hasPurchasedAndCompleted(buyerId, productId);
+        List<Order> buyerOrders = orderDAO.findByBuyerId(buyerId);
+        for (Order order : buyerOrders) {
+            if (order.getStatus() == OrderStatus.DELIVERED) {
+                boolean containsProduct = order.getItems() != null && order.getItems().stream()
+                    .anyMatch(i -> i.getProductId().equals(productId));
+                if (containsProduct) {
+                    if (reviewDAO.findByBuyerAndOrderAndProduct(buyerId, order.getId(), productId).isEmpty()) {
+                        return Optional.of(order.getId());
+                    }
+                }
+            }
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean canUserReview(Long buyerId, Long productId) {
+        return getEligibleOrderIdForReview(buyerId, productId).isPresent();
     }
 
     @Override

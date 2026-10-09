@@ -47,9 +47,16 @@ public class CheckoutServlet extends HttpServlet {
             if (orderNumber != null && !orderNumber.trim().isEmpty()) {
                 var orderOpt = getOrderService().getOrderByOrderNumber(orderNumber.trim());
                 if (orderOpt.isPresent()) {
-                    req.setAttribute("order", orderOpt.get());
-                    req.getRequestDispatcher("/WEB-INF/views/buyer/order-confirmation.jsp").forward(req, resp);
-                    return;
+                    OrderDTO order = orderOpt.get();
+                    // Prevent IDOR: Verify order belongs to current user or user is ADMIN
+                    if (order.getBuyerId().equals(user.getId()) || user.getRole() == com.sahana.sahanamart.model.Role.ADMIN) {
+                        req.setAttribute("order", order);
+                        req.getRequestDispatcher("/WEB-INF/views/buyer/order-confirmation.jsp").forward(req, resp);
+                        return;
+                    } else {
+                        resp.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied: You are not authorized to view this order confirmation");
+                        return;
+                    }
                 }
             }
             resp.sendRedirect(req.getContextPath() + "/buyer/orders");

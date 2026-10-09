@@ -12,3 +12,4 @@ config.properties
 *.mv.db
 *.trace.db
 .sahanamart/
+tomcat.*/
