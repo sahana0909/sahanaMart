@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><c:out value="${pageTitle != null ? pageTitle : 'SahanaMart | Premier Online Marketplace'}"/></title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/style.css">
+    <script>window.CONTEXT_PATH = "${pageContext.request.contextPath}";</script>
     <script defer src="${pageContext.request.contextPath}/static/js/app.js"></script>
 </head>
 <body>

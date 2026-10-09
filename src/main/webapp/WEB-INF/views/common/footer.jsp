@@ -29,5 +29,6 @@
         </div>
     </div>
 </footer>
+<jsp:include page="/WEB-INF/views/common/chatbot.jsp" />
 </body>
 </html>
