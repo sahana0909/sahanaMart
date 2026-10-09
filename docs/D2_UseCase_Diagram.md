@@ -48,6 +48,9 @@ flowchart LR
         UC16["Admin View All Registered Users"]
         UC17["Admin Moderate / Deactivate Product Listings"]
         UC18["Admin Audit System Orders"]
+    subgraph "Virtual Shopping Assistant (F9 Chatbot)"
+        UC19["Inquire via AI & Smart FAQ Chatbot"]
+        UC20["Receive Instant FAQ & Gemini AI Responses"]
     end
 
     G --> UC1
@@ -55,6 +58,7 @@ flowchart LR
     G --> UC4
     G --> UC5
     G --> UC6
+    G --> UC19
 
     B --> UC2
     B --> UC3
@@ -66,6 +70,7 @@ flowchart LR
     B --> UC9
     B --> UC10
     B --> UC11
+    B --> UC19
 
     S --> UC2
     S --> UC3
@@ -73,6 +78,7 @@ flowchart LR
     S --> UC13
     S --> UC14
     S --> UC15
+    S --> UC19
 
     A --> UC2
     A --> UC3

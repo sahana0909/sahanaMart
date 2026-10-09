@@ -80,4 +80,32 @@ public class ReviewServiceTest {
             .isInstanceOf(ValidationException.class)
             .hasMessageContaining("already reviewed");
     }
+
+    @Test
+    void testGetEligibleOrderIdForReview() {
+        Order deliveredOrder = new Order(10L, "SM-10", 3L, new BigDecimal("500.00"), OrderStatus.DELIVERED, "Chennai", "COMPLETED", null);
+        OrderItem item = new OrderItem(1L, 10L, 5L, 2L, 1, new BigDecimal("500.00"), new BigDecimal("500.00"), null);
+        deliveredOrder.setItems(List.of(item));
+
+        when(orderDAO.findByBuyerId(3L)).thenReturn(List.of(deliveredOrder));
+        when(reviewDAO.findByBuyerAndOrderAndProduct(3L, 10L, 5L)).thenReturn(Optional.empty());
+
+        Optional<Long> eligibleId = reviewService.getEligibleOrderIdForReview(3L, 5L);
+        assertThat(eligibleId).isPresent().contains(10L);
+        assertThat(reviewService.canUserReview(3L, 5L)).isTrue();
+    }
+
+    @Test
+    void testGetEligibleOrderIdForReview_AlreadyReviewed() {
+        Order deliveredOrder = new Order(10L, "SM-10", 3L, new BigDecimal("500.00"), OrderStatus.DELIVERED, "Chennai", "COMPLETED", null);
+        OrderItem item = new OrderItem(1L, 10L, 5L, 2L, 1, new BigDecimal("500.00"), new BigDecimal("500.00"), null);
+        deliveredOrder.setItems(List.of(item));
+
+        when(orderDAO.findByBuyerId(3L)).thenReturn(List.of(deliveredOrder));
+        when(reviewDAO.findByBuyerAndOrderAndProduct(3L, 10L, 5L)).thenReturn(Optional.of(new Review()));
+
+        Optional<Long> eligibleId = reviewService.getEligibleOrderIdForReview(3L, 5L);
+        assertThat(eligibleId).isEmpty();
+        assertThat(reviewService.canUserReview(3L, 5L)).isFalse();
+    }
 }
