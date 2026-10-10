@@ -1,7 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!-- Floating Chatbot Widget (CapStone AI & Smart FAQ Feature) -->
+<!-- Floating Chatbot Widget (AI & Smart Shopping Assistant) -->
 <div id="sahanaChatbotContainer" class="chatbot-wrapper">
     <!-- Chat Trigger Bubble Button -->
     <button id="chatbotToggleBtn" class="chatbot-toggle-btn" type="button" aria-label="Open SahanaMart Assistant" onclick="toggleChatbot()">
@@ -17,7 +17,7 @@
                 <div class="chatbot-avatar">🛍️</div>
                 <div>
                     <h4 class="chatbot-title">SahanaMart AI Assistant</h4>
-                    <span class="chatbot-status"><span class="status-dot"></span> Online • Smart FAQ</span>
+                    <span class="chatbot-status"><span class="status-dot"></span> Online • Instant Answers</span>
                 </div>
             </div>
             <button class="chatbot-close-btn" type="button" onclick="toggleChatbot()" aria-label="Close Chat">✕</button>
@@ -45,7 +45,7 @@
             <span class="typing-dot"></span>
             <span class="typing-dot"></span>
             <span class="typing-dot"></span>
-            <span style="font-size: 12px; color: var(--gray-500); margin-left: 6px;">Assistant is typing...</span>
+            <span style="font-size: 12px; color: var(--text-secondary); margin-left: 6px;">Assistant is typing...</span>
         </div>
 
         <!-- Input Footer -->

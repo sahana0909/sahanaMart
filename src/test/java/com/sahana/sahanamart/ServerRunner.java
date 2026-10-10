@@ -40,6 +40,14 @@ public class ServerRunner {
                 additionWebInfClasses.getAbsolutePath(), "/"));
         ctx.setResources(resources);
 
+        // Also register /SahanaMart for case-insensitive convenience
+        StandardContext ctxUpper = (StandardContext) tomcat.addWebapp("/SahanaMart", new File(webappDirLocation).getAbsolutePath());
+        ctxUpper.setParentClassLoader(ServerRunner.class.getClassLoader());
+        WebResourceRoot resourcesUpper = new StandardRoot(ctxUpper);
+        resourcesUpper.addPreResources(new DirResourceSet(resourcesUpper, "/WEB-INF/classes",
+                additionWebInfClasses.getAbsolutePath(), "/"));
+        ctxUpper.setResources(resourcesUpper);
+
         System.out.println("==================================================================");
         System.out.println("  SahanaMart E-Commerce Platform Server Starting...");
         System.out.println("  Home / Storefront:  http://localhost:" + port + "/sahanamart/");

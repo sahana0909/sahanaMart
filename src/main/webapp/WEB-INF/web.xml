@@ -11,6 +11,12 @@
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 
+    <!-- Default JSTL Locale for Indian Rupee comma grouping format (e.g. ₹2,499.00) -->
+    <context-param>
+        <param-name>javax.servlet.jsp.jstl.fmt.locale</param-name>
+        <param-value>en_IN</param-value>
+    </context-param>
+
     <!-- Application Lifecycle Listener -->
     <listener>
         <listener-class>com.sahana.sahanamart.listener.AppContextListener</listener-class>
@@ -199,5 +205,15 @@
         <exception-type>java.lang.Throwable</exception-type>
         <location>/WEB-INF/views/error/500.jsp</location>
     </error-page>
+
+    <!-- Enforce strict UTF-8 page encoding across all JSP compilation units -->
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+            <default-content-type>text/html; charset=UTF-8</default-content-type>
+            <trim-directive-whitespaces>true</trim-directive-whitespaces>
+        </jsp-property-group>
+    </jsp-config>
 
 </web-app>

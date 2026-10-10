@@ -1,10 +1,11 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="pageTitle" value="${product.name} | SahanaMart" scope="request"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
-<div style="margin-bottom: 20px;">
-    <a href="${pageContext.request.contextPath}/products" style="color: var(--gray-500); font-size: 14px; font-weight: 600;">
+<div style="margin-bottom: 24px;">
+    <a href="${pageContext.request.contextPath}/products" class="btn btn-outline btn-sm">
         ← Back to Catalog
     </a>
 </div>
@@ -18,48 +19,64 @@
         <span class="product-category"><c:out value="${product.categoryName}"/></span>
         <h1><c:out value="${product.name}"/></h1>
 
-        <div class="product-rating" style="font-size: 16px; margin-bottom: 16px;">
+        <div class="product-rating" style="font-size: 15px; margin-bottom: 16px;">
             <c:choose>
                 <c:when test="${reviewCount > 0}">
                     <span>★ <fmt:formatNumber value="${averageRating}" pattern="0.0"/> / 5.0</span>
-                    <span style="color: var(--gray-500); font-size: 14px;">(<c:out value="${reviewCount}"/> verified customer reviews)</span>
+                    <span style="color: var(--text-secondary); font-size: 13.5px; font-weight: 500;">
+                        (<c:out value="${reviewCount}"/> verified customer reviews)
+                    </span>
                 </c:when>
                 <c:otherwise>
-                    <span style="color: var(--gray-500); font-size: 14px;">★ No customer reviews yet</span>
+                    <span style="color: var(--text-muted); font-size: 13.5px; font-weight: 500;">★ No customer reviews yet</span>
                 </c:otherwise>
             </c:choose>
         </div>
 
         <div class="detail-price">
-            ₹<fmt:formatNumber value="${product.price}" pattern="#,##0.00"/>
+            <span class="currency-symbol">&#8377;</span><fmt:formatNumber value="${product.price}" pattern="#,##0.00"/>
         </div>
 
         <div>
             <c:choose>
                 <c:when test="${product.stockQty > 0}">
-                    <span class="stock-tag in-stock">✓ In Stock (<c:out value="${product.stockQty}"/> units available)</span>
+                    <span class="stock-tag in-stock">
+                        <span style="font-size: 14px;">●</span> In Stock (<c:out value="${product.stockQty}"/> units available)
+                    </span>
                 </c:when>
                 <c:otherwise>
-                    <span class="stock-tag out-stock">✗ Currently Out of Stock</span>
+                    <span class="stock-tag out-stock">
+                        <span style="font-size: 14px;">●</span> Currently Out of Stock
+                    </span>
                 </c:otherwise>
             </c:choose>
         </div>
 
-        <p style="color: var(--gray-700); line-height: 1.6; margin-bottom: 24px; font-size: 15px;">
+        <p style="color: var(--text-main); line-height: 1.7; margin-bottom: 24px; font-size: 15px;">
             <c:out value="${product.description}"/>
         </p>
 
-        <p style="font-size: 13px; color: var(--gray-500); margin-bottom: 24px;">
-            Sold and dispatched by: <strong style="color: var(--gray-700);"><c:out value="${product.sellerName}"/></strong>
-        </p>
+        <div style="background: var(--bg-muted); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 18px; margin-bottom: 24px;">
+            <div style="font-size: 13px; color: var(--text-secondary);">
+                Sold and dispatched by:
+                <strong style="color: var(--primary); font-weight: 700;">
+                    <c:out value="${product.sellerName}"/>
+                </strong>
+            </div>
+            <div style="font-size: 12px; color: var(--teal); font-weight: 600; margin-top: 4px;">
+                ✓ Verified SahanaMart Merchant
+            </div>
+        </div>
 
         <c:if test="${product.stockQty > 0}">
-            <form action="${pageContext.request.contextPath}/cart/add" method="post" style="display: flex; gap: 12px; align-items: center;">
+            <form action="${pageContext.request.contextPath}/cart/add" method="post" style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap;">
                 <input type="hidden" name="productId" value="${product.id}" />
-                <label for="quantity" style="font-size: 14px; font-weight: 600;">Qty:</label>
-                <input type="number" id="quantity" name="quantity" value="1" min="1" max="${product.stockQty}"
-                       class="form-control" style="width: 80px;" />
-                <button type="submit" class="btn btn-primary" style="flex: 1; padding: 12px 24px; font-size: 16px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <label for="quantity" style="font-size: 14px; font-weight: 700; color: var(--text-main);">Qty:</label>
+                    <input type="number" id="quantity" name="quantity" value="1" min="1" max="${product.stockQty}"
+                           class="form-control" style="width: 84px; text-align: center; font-weight: 700;" />
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg" style="flex: 1; min-width: 200px;">
                     🛒 Add to Cart
                 </button>
             </form>
@@ -67,22 +84,22 @@
     </div>
 </div>
 
-<!-- Customer Reviews Section (F8) -->
+<!-- Customer Reviews Section -->
 <div class="card">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <h2 style="font-size: 20px; font-weight: 800;">Customer Reviews & Ratings (F8)</h2>
-        <span style="font-size: 14px; color: var(--gray-500);">
-            Average Rating: <strong><fmt:formatNumber value="${averageRating}" pattern="0.0"/> ★</strong> (<c:out value="${reviewCount}"/> reviews)
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+        <h2 style="font-size: 20px; font-weight: 800; color: var(--text-main);">Verified Customer Reviews</h2>
+        <span style="font-size: 14px; color: var(--text-secondary);">
+            Average Rating: <strong style="color: var(--warning);"><fmt:formatNumber value="${averageRating}" pattern="0.0"/> ★</strong> (<c:out value="${reviewCount}"/> reviews)
         </span>
     </div>
 
     <!-- Review Form if Buyer is verified purchaser -->
     <c:choose>
         <c:when test="${canReview}">
-            <div style="background: var(--gray-50); padding: 20px; border-radius: var(--radius); margin-bottom: 24px; border: 1px dashed var(--primary);">
-                <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 8px;">Leave a Verified Customer Review</h3>
-                <p style="font-size: 13px; color: var(--gray-500); margin-bottom: 14px;">
-                    You purchased and received this product! Share your feedback with other buyers.
+            <div style="background: var(--primary-light); padding: 24px; border-radius: var(--radius); margin-bottom: 28px; border: 1.5px dashed var(--primary);">
+                <h3 style="font-size: 17px; font-weight: 800; color: var(--primary); margin-bottom: 8px;">Write a Customer Review</h3>
+                <p style="font-size: 13.5px; color: var(--text-secondary); margin-bottom: 16px;">
+                    You purchased and received this product! Share your honest feedback with fellow shoppers.
                 </p>
 
                 <form action="${pageContext.request.contextPath}/reviews/add" method="post">
@@ -91,7 +108,7 @@
 
                     <div class="form-group">
                         <label for="rating">Star Rating</label>
-                        <select name="rating" id="rating" class="form-control" style="max-width: 200px;" required>
+                        <select name="rating" id="rating" class="form-control" style="max-width: 240px; font-weight: 600;" required>
                             <option value="5">⭐⭐⭐⭐⭐ (5 - Outstanding)</option>
                             <option value="4">⭐⭐⭐⭐ (4 - Very Good)</option>
                             <option value="3">⭐⭐⭐ (3 - Average)</option>
@@ -103,33 +120,39 @@
                     <div class="form-group">
                         <label for="comment">Review Comments</label>
                         <textarea name="comment" id="comment" rows="3" class="form-control" required
-                                  placeholder="What did you like or dislike about this product?"></textarea>
+                                  placeholder="Describe the build quality, performance, and overall satisfaction..."></textarea>
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-sm">Submit Review</button>
+                    <button type="submit" class="btn btn-primary">Submit Review</button>
                 </form>
             </div>
         </c:when>
         <c:when test="${empty sessionScope.currentUser}">
-            <p style="font-size: 13px; color: var(--gray-500); margin-bottom: 20px; background: var(--gray-100); padding: 12px; border-radius: var(--radius);">
-                💡 Only verified buyers who purchased this item can leave a review. <a href="${pageContext.request.contextPath}/login" style="color: var(--primary); font-weight: 600;">Sign in to your account</a>.
-            </p>
+            <div style="font-size: 13.5px; color: var(--text-secondary); margin-bottom: 24px; background: var(--bg-muted); padding: 14px 18px; border-radius: var(--radius); border: 1px solid var(--border);">
+                💡 Only verified buyers who purchased this product can submit a review. <a href="${pageContext.request.contextPath}/login" style="color: var(--primary); font-weight: 700;">Sign in to your account</a>.
+            </div>
         </c:when>
     </c:choose>
 
     <!-- Review List -->
     <c:choose>
         <c:when test="${not empty reviews}">
-            <div style="display: flex; flex-direction: column; gap: 16px;">
+            <div style="display: flex; flex-direction: column; gap: 18px;">
                 <c:forEach var="review" items="${reviews}">
-                    <div style="border-bottom: 1px solid var(--gray-100); padding-bottom: 16px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                            <span style="font-weight: 700; font-size: 14px;"><c:out value="${review.buyerName}"/></span>
-                            <span style="color: var(--accent); font-size: 14px;">
+                    <div style="background: var(--bg-muted); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--primary-light); color: var(--primary); font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center;">
+                                    ${review.buyerName.substring(0, 1)}
+                                </div>
+                                <span style="font-weight: 700; font-size: 14.5px; color: var(--text-main);"><c:out value="${review.buyerName}"/></span>
+                                <span style="font-size: 11px; background: var(--success-light); color: var(--success-text); padding: 2px 6px; border-radius: 4px; font-weight: 700;">✓ Verified Buyer</span>
+                            </div>
+                            <span style="color: var(--warning); font-size: 14px;">
                                 <c:forEach begin="1" end="${review.rating}">★</c:forEach>
                             </span>
                         </div>
-                        <p style="color: var(--gray-700); font-size: 14px; line-height: 1.5;">
+                        <p style="color: var(--text-main); font-size: 14px; line-height: 1.6; padding-left: 40px;">
                             <c:out value="${review.comment}"/>
                         </p>
                     </div>
@@ -137,9 +160,10 @@
             </div>
         </c:when>
         <c:otherwise>
-            <p style="color: var(--gray-500); font-size: 14px; text-align: center; padding: 20px;">
-                No reviews yet. Be the first verified buyer to rate this product!
-            </p>
+            <div style="color: var(--text-secondary); font-size: 14px; text-align: center; padding: 30px 20px;">
+                <p style="font-size: 32px; margin-bottom: 8px;">⭐</p>
+                <p>No reviews yet for this product. Be the first verified buyer to leave a rating!</p>
+            </div>
         </c:otherwise>
     </c:choose>
 </div>

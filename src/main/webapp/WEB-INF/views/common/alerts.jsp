@@ -1,6 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div class="container" style="margin-top: 15px;">
+<div class="container" style="margin-top: 18px;">
     <%-- Request / Session Errors --%>
     <c:if test="${not empty error}">
         <div class="alert alert-error">

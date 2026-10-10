@@ -1,12 +1,13 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="pageTitle" value="Seller Dashboard | SahanaMart" scope="request"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap; gap: 14px;">
     <div>
-        <h1 style="font-size: 26px; font-weight: 800;">Seller Management Dashboard</h1>
-        <p style="color: var(--gray-500); font-size: 14px;">Manage your active product inventory and listings (F2)</p>
+        <h1 style="font-size: 28px; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px;">Merchant Dashboard</h1>
+        <p style="color: var(--text-secondary); font-size: 14px; margin-top: 4px;">Monitor catalogue listings, stock levels, and customer ratings</p>
     </div>
     <button type="button" class="btn btn-primary" onclick="toggleListingModal('createModal', true)">
         + Add New Product Listing
@@ -19,11 +20,11 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Product</th>
+                <th>Product Information</th>
                 <th>Category</th>
-                <th>Price</th>
+                <th>Unit Price</th>
                 <th>Inventory Stock</th>
-                <th>Status</th>
+                <th>Visibility</th>
                 <th>Rating</th>
                 <th>Actions</th>
             </tr>
@@ -33,27 +34,35 @@
                 <c:when test="${not empty products}">
                     <c:forEach var="p" items="${products}">
                         <tr>
-                            <td>#<c:out value="${p.id}"/></td>
+                            <td><strong style="color: var(--text-secondary);">#<c:out value="${p.id}"/></strong></td>
                             <td>
-                                <div style="display: flex; align-items: center; gap: 12px;">
+                                <div style="display: flex; align-items: center; gap: 14px;">
                                     <img src="<c:out value='${p.imageUrl}'/>" alt="<c:out value='${p.name}'/>"
-                                         style="width: 44px; height: 44px; object-fit: cover; border-radius: 6px;" />
+                                         style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border);" />
                                     <div>
-                                        <div style="font-weight: 700; color: var(--gray-900); max-width: 250px;" class="product-title">
+                                        <div style="font-weight: 700; color: var(--text-main); max-width: 260px;" class="product-title">
                                             <c:out value="${p.name}"/>
                                         </div>
                                     </div>
                                 </div>
                             </td>
-                            <td><c:out value="${p.categoryName}"/></td>
-                            <td style="font-weight: 700;">₹<fmt:formatNumber value="${p.price}" pattern="#,##0.00"/></td>
+                            <td>
+                                <span class="product-category" style="margin-bottom: 0;"><c:out value="${p.categoryName}"/></span>
+                            </td>
+                            <td style="font-weight: 800; color: var(--primary);">
+                                <span class="currency-symbol">&#8377;</span><fmt:formatNumber value="${p.price}" pattern="#,##0.00"/>
+                            </td>
                             <td>
                                 <c:choose>
                                     <c:when test="${p.stockQty <= 5}">
-                                        <span style="color: var(--danger); font-weight: 700;">⚠️ <c:out value="${p.stockQty}"/> (Low Stock)</span>
+                                        <span style="color: var(--danger); font-weight: 700; background: var(--danger-light); padding: 4px 8px; border-radius: 6px; font-size: 12.5px;">
+                                            ⚠️ <c:out value="${p.stockQty}"/> (Low Stock)
+                                        </span>
                                     </c:when>
                                     <c:otherwise>
-                                        <span style="color: var(--success); font-weight: 600;"><c:out value="${p.stockQty}"/> in stock</span>
+                                        <span style="color: var(--success-text); font-weight: 700; background: var(--success-light); padding: 4px 8px; border-radius: 6px; font-size: 12.5px;">
+                                            <c:out value="${p.stockQty}"/> in stock
+                                        </span>
                                     </c:otherwise>
                                 </c:choose>
                             </td>
@@ -63,8 +72,8 @@
                                 </span>
                             </td>
                             <td>
-                                <span style="color: var(--accent); font-weight: 700;">★ <fmt:formatNumber value="${p.averageRating}" pattern="0.0"/></span>
-                                <span style="font-size: 12px; color: var(--gray-500);">(<c:out value="${p.reviewCount}"/>)</span>
+                                <span style="color: var(--warning); font-weight: 700;">★ <fmt:formatNumber value="${p.averageRating}" pattern="0.0"/></span>
+                                <span style="font-size: 12px; color: var(--text-secondary);">(<c:out value="${p.reviewCount}"/>)</span>
                             </td>
                             <td>
                                 <div style="display: flex; gap: 8px;">
@@ -75,7 +84,7 @@
                                     <form action="${pageContext.request.contextPath}/seller/product/delete" method="post"
                                           onsubmit="return confirm('Are you sure you want to permanently delete this listing?');" style="display: inline;">
                                         <input type="hidden" name="productId" value="${p.id}" />
-                                        <button type="submit" class="btn btn-outline btn-sm" style="color: var(--danger);">Delete</button>
+                                        <button type="submit" class="btn btn-outline btn-sm" style="color: var(--danger); border-color: #FECACA;">Delete</button>
                                     </form>
                                 </div>
                             </td>
@@ -84,7 +93,7 @@
                 </c:when>
                 <c:otherwise>
                     <tr>
-                        <td colspan="8" style="text-align: center; padding: 40px; color: var(--gray-500);">
+                        <td colspan="8" style="text-align: center; padding: 50px 20px; color: var(--text-secondary);">
                             You have not listed any products yet. Click "+ Add New Product Listing" to start.
                         </td>
                     </tr>
@@ -95,11 +104,11 @@
 </div>
 
 <!-- Modal: Create Product -->
-<div id="createModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
-    <div class="card" style="width: 100%; max-width: 550px; max-height: 90vh; overflow-y: auto;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h2 style="font-size: 20px; font-weight: 800;">Create New Product Listing</h2>
-            <button type="button" onclick="toggleListingModal('createModal', false)" style="background: none; border: none; font-size: 20px; cursor: pointer;">✕</button>
+<div id="createModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center;">
+    <div class="card" style="width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-xl); border: 1px solid var(--border);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px;">
+            <h2 style="font-size: 20px; font-weight: 800; color: var(--text-main);">Create New Product Listing</h2>
+            <button type="button" onclick="toggleListingModal('createModal', false)" style="background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-secondary);">✕</button>
         </div>
 
         <form action="${pageContext.request.contextPath}/seller/product/create" method="post">
@@ -117,9 +126,9 @@
                 </select>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
                 <div class="form-group">
-                    <label for="createPrice">Price (₹)</label>
+                    <label for="createPrice">Price (₹ INR)</label>
                     <input type="number" step="0.01" min="1" id="createPrice" name="price" class="form-control" required placeholder="1499.00" />
                 </div>
                 <div class="form-group">
@@ -136,10 +145,10 @@
 
             <div class="form-group">
                 <label for="createDesc">Detailed Description</label>
-                <textarea id="createDesc" name="description" rows="3" class="form-control" required placeholder="Explain features, specifications, and warranty"></textarea>
+                <textarea id="createDesc" name="description" rows="3" class="form-control" required placeholder="Explain features, specifications, and warranty details..."></textarea>
             </div>
 
-            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+            <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px;">
                 <button type="button" class="btn btn-outline" onclick="toggleListingModal('createModal', false)">Cancel</button>
                 <button type="submit" class="btn btn-primary">Publish Listing</button>
             </div>
@@ -148,11 +157,11 @@
 </div>
 
 <!-- Modal: Edit Product -->
-<div id="editModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
-    <div class="card" style="width: 100%; max-width: 550px; max-height: 90vh; overflow-y: auto;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h2 style="font-size: 20px; font-weight: 800;">Edit Product Listing</h2>
-            <button type="button" onclick="toggleListingModal('editModal', false)" style="background: none; border: none; font-size: 20px; cursor: pointer;">✕</button>
+<div id="editModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center;">
+    <div class="card" style="width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-xl); border: 1px solid var(--border);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px;">
+            <h2 style="font-size: 20px; font-weight: 800; color: var(--text-main);">Edit Product Listing</h2>
+            <button type="button" onclick="toggleListingModal('editModal', false)" style="background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-secondary);">✕</button>
         </div>
 
         <form action="${pageContext.request.contextPath}/seller/product/edit" method="post">
@@ -172,9 +181,9 @@
                 </select>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
                 <div class="form-group">
-                    <label for="editPrice">Price (₹)</label>
+                    <label for="editPrice">Price (₹ INR)</label>
                     <input type="number" step="0.01" min="1" id="editPrice" name="price" class="form-control" required />
                 </div>
                 <div class="form-group">
@@ -194,13 +203,13 @@
             </div>
 
             <div class="form-group">
-                <label style="display: flex; align-items: center; gap: 8px;">
-                    <input type="checkbox" id="editActive" name="active" value="true" />
-                    <span>Active Listing (Visible to buyers)</span>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="checkbox" id="editActive" name="active" value="true" style="accent-color: var(--primary);" />
+                    <span style="font-weight: 600; color: var(--text-main);">Active Listing (Visible to buyers)</span>
                 </label>
             </div>
 
-            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+            <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px;">
                 <button type="button" class="btn btn-outline" onclick="toggleListingModal('editModal', false)">Cancel</button>
                 <button type="submit" class="btn btn-primary">Save Changes</button>
             </div>
